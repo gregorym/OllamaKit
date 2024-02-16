@@ -25,6 +25,13 @@ public struct OKChatRequestData: Encodable {
         self.model = model
         self.messages = messages
     }
+
+    public init(model: String, messages: [Message], options: OKCompletionOptions) {
+        self.stream = true
+        self.model = model
+        self.messages = messages
+        self.options = options
+    }
     
     /// A structure that represents a single message in the chat request.
     public struct Message: Encodable {

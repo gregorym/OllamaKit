@@ -1,4 +1,5 @@
 //
+
 //  OKCompletionData.swift
 //
 //
@@ -8,7 +9,7 @@
 import Foundation
 
 /// A structure that encapsulates options for controlling the behavior of content generation in the Ollama API.
-public struct OKCompletionOptions: Encodable {
+public struct OKCompletionOptions: Codable {
     /// Optional integer to enable Mirostat sampling for controlling perplexity. (0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
     public var mirostat: Int?
     

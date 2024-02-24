@@ -34,6 +34,5 @@ public struct OKGenerateRequestData: Encodable {
         self.model = model
         self.prompt = prompt
         self.images = images
-        self.options = nil
     }
 }

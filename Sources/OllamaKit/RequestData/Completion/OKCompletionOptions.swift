@@ -57,4 +57,7 @@ public struct OKCompletionOptions: Encodable {
     
     /// Optional float working with top-k to balance text diversity and focus.
     public var topP: Float?
+
+    public init() {
+    }
 }

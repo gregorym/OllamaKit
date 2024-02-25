@@ -1,6 +1,8 @@
 public struct OKCompletionOptions: Encodable {
     private var options: [String: Any] = [:]
     
+    public init() {}
+
     public mutating func setOption(key: String, value: Any) {
         options[key] = value
     }

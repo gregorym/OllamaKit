@@ -1,63 +1,42 @@
-//
-
-//  OKCompletionData.swift
-//
-//
-//  Created by Kevin Hermawan on 02/01/24.
-//
-
-import Foundation
-
-/// A structure that encapsulates options for controlling the behavior of content generation in the Ollama API.
 public struct OKCompletionOptions: Encodable {
-    /// Optional integer to enable Mirostat sampling for controlling perplexity. (0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
-    public var mirostat: Int?
+    private var options: [String: Any] = [:]
     
-    /// Optional float influencing the adjustment speed of the Mirostat algorithm. (Lower = slower adjustment)
-    public var mirostatEta: Float?
+    public mutating func setOption(key: String, value: Any) {
+        options[key] = value
+    }
     
-    /// Optional float controlling the balance between coherence and diversity. (Lower = more focused text)
-    public var mirostatTau: Float?
+    public func getOption<T>(key: String) -> T? {
+        return options[key] as? T
+    }
     
-    /// Optional integer setting the size of the context window for token generation.
-    public var numCtx: Int?
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: DynamicCodingKeys.self)
+        for (key, value) in options {
+            if let val = value as? Int {
+                try container.encode(val, forKey: DynamicCodingKeys(stringValue: key)!)
+            } else if let val = value as? String {
+                try container.encode(val, forKey: DynamicCodingKeys(stringValue: key)!)
+            } else if let val = value as? Float {
+                try container.encode(val, forKey: DynamicCodingKeys(stringValue: key)!)
+            } else {
+                // Handle or ignore other types
+                print("Unsupported type for \(key)")
+            }
+        }
+    }
     
-    /// Optional integer for the number of GQA groups in the transformer layer, specific to some models.
-    public var numGqa: Int?
-    
-    /// Optional integer indicating the number of layers to send to the GPU(s).
-    public var numGpu: Int?
-    
-    /// Optional integer for the number of threads used in computation, recommended to match physical CPU cores.
-    public var numThread: Int?
-    
-    /// Optional integer setting how far back the model checks to prevent repetition.
-    public var repeatLastN: Int?
-    
-    /// Optional float setting the penalty strength for repetitions.
-    public var repeatPenalty: Float?
-    
-    /// Optional float to control the model's creativity (higher = more creative).
-    public var temperature: Float?
-    
-    /// Optional integer for setting a random number seed for generation consistency.
-    public var seed: Int?
-    
-    /// Optional string defining stop sequences for the model to cease generation.
-    public var stop: String?
-    
-    /// Optional float for tail free sampling, reducing impact of less probable tokens.
-    public var tfsZ: Float?
-    
-    /// Optional integer for the maximum number of tokens to predict.
-    public var numPredict: Int?
-    
-    /// Optional integer to limit nonsense generation and control answer diversity.
-    public var topK: Int?
-    
-    /// Optional float working with top-k to balance text diversity and focus.
-    public var topP: Float?
-
-    public init() {
+    struct DynamicCodingKeys: CodingKey {
+        var stringValue: String
+        var intValue: Int?
+        
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+            self.intValue = nil
+        }
+        
+        init?(intValue: Int) {
+            self.stringValue = "\(intValue)"
+            self.intValue = intValue
+        }
     }
 }

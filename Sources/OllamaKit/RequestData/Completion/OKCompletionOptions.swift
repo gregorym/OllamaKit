@@ -30,6 +30,7 @@ public struct OKCompletionOptions: Encodable {
     struct DynamicCodingKeys: CodingKey {
         var stringValue: String
         var intValue: Int?
+        var floatValue: Float?
         
         init?(stringValue: String) {
             self.stringValue = stringValue
@@ -39,6 +40,11 @@ public struct OKCompletionOptions: Encodable {
         init?(intValue: Int) {
             self.stringValue = "\(intValue)"
             self.intValue = intValue
+        }
+
+        init?(floatValue: Float) {
+            self.stringValue = "\(floatValue)"
+            self.floatValue = floatValue
         }
     }
 }

@@ -76,10 +76,15 @@ extension OKRouter: URLRequestConvertible {
         
         switch self {
         case .modelInfo(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
         case .generate(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
         case .chat(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
         case .copyModel(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
         case .deleteModel(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
         case .generateEmbeddings(let data):
             request.httpBody = try JSONEncoder.default.encode(data)
         default:

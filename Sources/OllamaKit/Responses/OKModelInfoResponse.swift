@@ -20,4 +20,7 @@ public struct OKModelInfoResponse: Decodable {
     
     /// A string detailing the parameters or settings of the model.
     public let parameters: String
+
+    // A list of capabilities
+    public let capabilities: [String]
 }

@@ -13,7 +13,7 @@ public struct OKGenerateEmbeddingsRequestData: Encodable {
     public let model: String
     
     /// A string containing the initial input or prompt.
-    public let prompt: String
+    public let input: String
     
     /// Optional ``OKCompletionOptions`` providing additional configuration for the generation request.
     public var options: OKCompletionOptions?
@@ -21,8 +21,8 @@ public struct OKGenerateEmbeddingsRequestData: Encodable {
     /// Optionally control how long the model will stay loaded into memory following the request (default: 5m)
     public var keep_alive: String?
     
-    public init(model: String, prompt: String) {
+    public init(model: String, input: String) {
         self.model = model
-        self.prompt = prompt
+        self.input = input
     }
 }

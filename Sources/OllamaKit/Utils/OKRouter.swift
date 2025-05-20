@@ -37,7 +37,7 @@ internal enum OKRouter {
         case .deleteModel:
             return "/api/delete"
         case .generateEmbeddings:
-            return "/api/embeddings"
+            return "/api/embed"
         }
     }
     

@@ -7,6 +7,51 @@
 
 import Foundation
 
+public enum JSONValue: Codable, Hashable {
+    case string(String)
+    case int(Int)
+    case double(Double)
+    case bool(Bool)
+    case null
+
+    // MARK: - Decoding
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+
+        if container.decodeNil() {
+            self = .null
+        } else if let b = try? container.decode(Bool.self) {
+            self = .bool(b)
+        } else if let i = try? container.decode(Int.self) {
+            self = .int(i)
+        } else if let d = try? container.decode(Double.self) {
+            self = .double(d)
+        } else if let s = try? container.decode(String.self) {
+            self = .string(s)
+        } else {
+            throw DecodingError.typeMismatch(
+                JSONValue.self,
+                .init(codingPath: container.codingPath,
+                      debugDescription: "Unsupported JSON primitive")
+            )
+        }
+    }
+
+    // MARK: - Encoding
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .string(let s):  try container.encode(s)
+        case .int(let i):     try container.encode(i)
+        case .double(let d):  try container.encode(d)
+        case .bool(let b):    try container.encode(b)
+        case .null:           try container.encodeNil()
+        }
+    }
+}
+
 /// A structure that represents the response containing information about a specific model from the Ollama API.
 public struct OKModelInfoResponse: Decodable {
     /// A string detailing the licensing information for the model.

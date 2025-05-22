@@ -11,5 +11,5 @@ import Foundation
 public struct OKGenerateEmbeddingsResponse: Decodable {
     
     /// An array of floats representing the embeddings of the input prompt.
-    public let embedding: [Float]?
+    public let embeddings: [[Float]]?
 }

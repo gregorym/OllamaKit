@@ -23,4 +23,9 @@ public struct OKModelInfoResponse: Decodable {
 
     // A list of capabilities
     public let capabilities: [String]
+
+    /// Arbitrary key/value pairs giving detailed model metadata
+    /// (`model_info` in the JSON). Values may be numbers, bools,
+    /// strings, or `null`, so we store them as `[String: JSONValue]`.
+    public let modelInfo: [String: JSONValue]?
 }

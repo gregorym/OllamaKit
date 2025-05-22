@@ -50,6 +50,53 @@ public enum JSONValue: Codable, Hashable {
         case .null:           try container.encodeNil()
         }
     }
+
+    /// Returns the associated `Int` if the value is an `.int`,
+    /// tries to convert from `.double` or numeric `String`,
+    /// otherwise `nil`.
+    var intValue: Int? {
+        switch self {
+        case .int(let n):         return n
+        case .double(let d):      return Int(d)
+        case .string(let s):      return Int(s)
+        default:                  return nil
+        }
+    }
+    
+    /// Returns the associated `Double` or converts from `Int` / numeric `String`.
+    var doubleValue: Double? {
+        switch self {
+        case .double(let d):      return d
+        case .int(let n):         return Double(n)
+        case .string(let s):      return Double(s)
+        default:                  return nil
+        }
+    }
+    
+    /// Returns the associated `String`, or stringifies a primitive.
+    var stringValue: String? {
+        switch self {
+        case .string(let s):      return s
+        case .int(let n):         return String(n)
+        case .double(let d):      return String(d)
+        case .bool(let b):        return String(b)
+        case .null:               return nil
+        }
+    }
+    
+    /// Returns the associated `Bool`, or parses `"true"/"false"` (case-insensitive).
+    var boolValue: Bool? {
+        switch self {
+        case .bool(let b):        return b
+        case .string(let s):
+            switch s.lowercased() {
+            case "true":  return true
+            case "false": return false
+            default:      return nil
+            }
+        default:                  return nil
+        }
+    }
 }
 
 /// A structure that represents the response containing information about a specific model from the Ollama API.
